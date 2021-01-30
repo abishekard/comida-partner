@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_height="match_parent"
+    tools:context=".loginAndSignUp.OtpVerification">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_marginTop="30dp"
+        android:text="We have sent an OTP to"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:text="your Email"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:text="Please check your email and Enter the OTP"/>
+
+    <LinearLayout
+        android:id="@+id/otp_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/otp_1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/otp_edt_background"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:textAlignment="center"
+                android:maxLength="1"
+                android:inputType="number"
+                />
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/otp_2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/otp_edt_background"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:textAlignment="center"
+                android:maxLength="1"
+                android:inputType="number"
+                />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <EditText
+                android:id="@+id/otp_3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/otp_edt_background"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:textAlignment="center"
+                android:maxLength="1"
+                android:inputType="number"
+                />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <EditText
+                android:id="@+id/otp_4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/otp_edt_background"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:textAlignment="center"
+                android:maxLength="1"
+                android:inputType="number"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dirty_white" />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="60 Sec"
+        android:layout_gravity="end"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"/>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+    <Button
+        android:id="@+id/verify"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Verify"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_bold"
+        android:textStyle="bold"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/background_btn_login"/>
+
+
+
+</LinearLayout>

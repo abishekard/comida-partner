@@ -15,6 +15,7 @@
     <color name="dirty_white2">  #F6F6F6</color>
     <color name="dirty_white3">#ECEBEB</color>
     <color name="grey">#5A5959</color>
+    <color name="grey_light">#7E7C7C</color>
     <color name="icon_unselect">#b6b7b7</color>
     <color name="transparent">#000E0E0E</color>
     <color name="blue">#2196F3</color>
