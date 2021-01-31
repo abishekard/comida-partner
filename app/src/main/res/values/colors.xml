@@ -21,6 +21,7 @@
     <color name="transparent">#000E0E0E</color>
     <color name="blue">#2196F3</color>
     <color name="voilet">#42296E</color>
+    <color name="black4">#d5dbdb</color>
 
 
     <color name="tab_background_select">@color/colorPrimary</color>
