@@ -18,9 +18,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".loginAndSignUp.AddShopDetails"></activity>
-        <activity android:name=".Home.HomePage" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Home.sales.Sales"></activity>
+        <activity android:name=".Home.profile.ProfilePage" />
+        <activity android:name=".Home.foodMangement.FoodMangement" />
+        <activity
+            android:name=".loginAndSignUp.AddShopDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Home.HomePage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".loginAndSignUp.OtpVerification"
             android:screenOrientation="portrait" />

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/grey_dark"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        >
+<!--        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginBottom="20dp"
+
+            >
+            <ImageView
+                android:id="@+id/close_drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cross"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                />
+        </LinearLayout>-->
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/nav_profile_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/face"
+            android:layout_marginTop="20dp"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+
+            />
+
+
+
+
+
+
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/my_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Profile"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:layout_marginTop="30dp"
+        android:letterSpacing="0.1"
+        android:padding="10dp"
+        />
+    <TextView
+        android:id="@+id/food_management"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Food Management"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:letterSpacing="0.1"
+        android:padding="10dp"
+        />
+    <TextView
+        android:id="@+id/sales"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sales"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:layout_marginTop="10dp"
+        android:letterSpacing="0.1"
+        android:padding="10dp"
+        />
+    <TextView
+        android:id="@+id/notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notifications"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:layout_marginTop="10dp"
+        android:letterSpacing="0.1"
+        android:padding="10dp"
+        />
+    <TextView
+        android:id="@+id/faqs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FAQs"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:layout_marginTop="10dp"
+        android:letterSpacing="0.1"
+        android:padding="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/about_us"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About Us"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:layout_marginTop="10dp"
+        android:letterSpacing="0.1"
+        android:padding="10dp"
+        />
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:layout_marginTop="10dp"
+        android:letterSpacing="0.1"
+        android:padding="10dp"
+        />
+
+</LinearLayout>
