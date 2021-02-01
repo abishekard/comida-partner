@@ -273,7 +273,7 @@
                     android:textSize="20sp"
                     android:fontFamily="@font/montserrat_regular"
                     android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/green"
                     android:text="Available to take Order" />
 
                 <androidx.appcompat.widget.SwitchCompat

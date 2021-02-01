@@ -18,7 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home.foodMangement.CreateFood"></activity>
+        <activity android:name=".Home.fragment.OrderDetail"></activity>
+        <activity android:name=".aboutUs.Faq" />
+        <activity android:name=".aboutUs.AboutUs" />
+        <activity android:name=".notification.NotificationHomePage" />
+        <activity android:name=".Home.foodMangement.CreateFood" />
         <activity android:name=".Home.profile.StoreDetailPage" />
         <activity android:name=".Home.sales.Sales" />
         <activity android:name=".Home.profile.ProfilePage" />
