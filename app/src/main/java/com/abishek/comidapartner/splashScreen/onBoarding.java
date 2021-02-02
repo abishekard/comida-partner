@@ -36,14 +36,14 @@ public class onBoarding extends AppCompatActivity implements ViewPager.OnPageCha
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*boolean shown = new LoginSessionManager(onBoarding.this).onBoardingShown();
+        boolean shown = new LoginSessionManager(onBoarding.this).onBoardingShown();
 
-        if(!shown)
+        if(shown)
         {
-            startActivity(new Intent(onBoarding.this, HomePage.class));
+            startActivity(new Intent(onBoarding.this, SplashScreen.class));
             finish();
             return;
-        }*/
+        }
 
 
         // Next two lines help in getting rid off status bar
@@ -84,7 +84,7 @@ public class onBoarding extends AppCompatActivity implements ViewPager.OnPageCha
             public void onClick(View v) {
                 int id = viewPager.getCurrentItem();
                 if(id == 2){
-                    startActivity(new Intent(onBoarding.this, Login.class));
+                    startActivity(new Intent(onBoarding.this, SplashScreen.class));
                     finish();
                 }
                 else{
@@ -98,7 +98,7 @@ public class onBoarding extends AppCompatActivity implements ViewPager.OnPageCha
         tv_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(onBoarding.this,Login.class));
+                startActivity(new Intent(onBoarding.this,SplashScreen.class));
                 finish();
             }
         });

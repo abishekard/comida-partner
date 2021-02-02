@@ -26,6 +26,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_LOGIN_OTP;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.NO_OF_RETRY;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.RETRY_SECONDS;
 
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -55,8 +58,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             case R.id.register:startActivity(new Intent(Login.this,SignUp.class));
             finish();
                 break;
-            case R.id.login: //getDataFromUi();
-                startActivity(new Intent(Login.this,OtpVerification.class));
+            case R.id.login: getDataFromUi();
+               // startActivity(new Intent(Login.this,OtpVerification.class));
                 break;
         }
     }
@@ -75,10 +78,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             return;
         }
 
-      //  getOtpForLogin(email);
+        getOtpForLogin(email);
     }
 
-   /* public void getOtpForLogin(String email)
+    public void getOtpForLogin(String email)
     {
 
 
@@ -149,6 +152,5 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
 
     }
-*/
 
 }

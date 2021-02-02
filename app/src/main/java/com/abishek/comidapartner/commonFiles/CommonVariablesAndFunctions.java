@@ -15,21 +15,24 @@ public class CommonVariablesAndFunctions {
     public static final int NO_OF_RETRY = 2;
     public static final String TIME_FORMAT = "hh:mm a";
 
-    public static final String BASE = "http://androasu.in/comida/api/customer/";
+    public static final String BASE = "http://androasu.in/comida/api/partner/";
     public static final String BASE_IMAGE = "http://androasu.in/comida/";
-    public static final String BASE_ALL_PRODUCTS = BASE+"product/all";
-    public static final String BASE_PRODUCT_CATEGORY = BASE+"product/category/all/";
-    public static final String BASE_RESTAURANT_ALL = BASE+"restaurent/all";
-    public static final String BASE_RESTAURANT_INFO = BASE+"partner/info/";
     public static final String BASE_LOGIN_OTP = BASE+"login/send/otp";
     public static final String BASE_LOGIN = BASE+"login/with/otp";
     public static final String BASE_SIGN_UP = BASE+"create/new";
+    public static final String BASE_FCM = BASE+"store/fcm";
+    public static final String BASE_GET_SHOP = BASE+"get/shop";
+
+
+    public static final String BASE_PRODUCT_CATEGORY = BASE+"product/category/all/";
+    public static final String BASE_RESTAURANT_ALL = BASE+"restaurent/all";
+    public static final String BASE_RESTAURANT_INFO = BASE+"partner/info/";
     public static final String BASE_PROFILE_SHOW = BASE+"show/profile/";
     public static final String BASE_PROFILE_EDIT = BASE+"edit/profile";
     public static final String BASE_ADDRESS_SHOW = BASE+"show/address/";
     public static final String BASE_ADDRESS_ADD = BASE+"create/address";
     public static final String BASE_ADDRESS_DELETE = BASE+"delete/address/";
-    public static final String BASE_FCM = BASE+"store/fcm";
+
     public static final String BASE_PLACE_ORDER = BASE+"placeOrder";
     public static final String BASE_NEW_ORDER = BASE+"orders/new/";
     public static final String BASE_COMPLETE_ORDER = BASE+"orders/completed/";

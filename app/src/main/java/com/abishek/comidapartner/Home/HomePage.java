@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,11 +22,19 @@ import com.abishek.comidapartner.Home.sales.Sales;
 import com.abishek.comidapartner.R;
 import com.abishek.comidapartner.aboutUs.AboutUs;
 import com.abishek.comidapartner.aboutUs.Faq;
+import com.abishek.comidapartner.commonFiles.LoginSessionManager;
+import com.abishek.comidapartner.loginAndSignUp.AddNewAddress;
+import com.abishek.comidapartner.loginAndSignUp.AddShopDetails;
+import com.abishek.comidapartner.loginAndSignUp.Login;
 import com.abishek.comidapartner.notification.NotificationHomePage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.HashMap;
+
 public class HomePage extends AppCompatActivity implements View.OnClickListener {
+
+    private final String TAG = "HomePage";
 
     private ImageView botNavProfile, botNavFoodManagement, botNavSale, botNavMenu;
     private FloatingActionButton fabHome;
@@ -34,16 +43,48 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private LoginSessionManager loginSessionManager;
+    private HashMap<String,String> user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        loginSessionManager = new LoginSessionManager(HomePage.this);
+        user = loginSessionManager.getUserDetailsFromSP();
+        if(!loginSessionManager.isLoggedIn())
+        {
+            startActivity(new Intent(HomePage.this, Login.class));
+            finish();
+            return;
+        }
+        if(user.get("shop_name").equals("null"))
+        {
+            startActivity(new Intent(HomePage.this, AddShopDetails.class));
+            finish();
+            return;
+        }
+        if(user.get("address").equals("null"))
+        {
+            startActivity(new Intent(HomePage.this, AddNewAddress.class));
+            finish();
+            return;
+        }
+        Log.e(TAG,user.get("shop_name")+"  "+user.get("address"));
+
+
+        launchHome();
+
+    }
+
+    public void launchHome()
+    {
+
         setContentView(R.layout.activity_home_page);
 
         inItUi();
         setUpNavigationDrawer();
     }
-
 
     public void inItUi() {
         botNavProfile = findViewById(R.id.bot_nav_profile);

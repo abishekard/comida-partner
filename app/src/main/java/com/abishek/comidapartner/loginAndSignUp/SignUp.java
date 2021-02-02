@@ -26,6 +26,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_SIGN_UP;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.NO_OF_RETRY;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.RETRY_SECONDS;
 
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
@@ -57,8 +60,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         {
             case R.id.login: onBackPressed();
                 break;
-            case R.id.sign_up: //getDataFromUi();
-                startActivity(new Intent(SignUp.this,OtpVerification.class));
+            case R.id.sign_up: getDataFromUi();
+               // startActivity(new Intent(SignUp.this,OtpVerification.class));
                 break;
         }
     }
@@ -95,11 +98,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             return;
         }
 
-      //  createAccount(email,name,mobile);
+        createAccount(email,name,mobile);
 
     }
 
-/*    public void createAccount(String email,String name,String mobile)
+    public void createAccount(String email,String name,String mobile)
     {
 
 
@@ -169,5 +172,5 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         MySingleton.getInstance(SignUp.this).addToRequestQueue(stringRequest);
 
 
-    }*/
+    }
 }

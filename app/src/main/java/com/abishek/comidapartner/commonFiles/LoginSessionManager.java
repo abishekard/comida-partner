@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.abishek.comidapartner.loginAndSignUp.AddShopDetails;
 import com.abishek.comidapartner.loginAndSignUp.Login;
 
 import java.util.HashMap;
@@ -31,6 +32,10 @@ public class LoginSessionManager {
     public static final String MOBILE = "mobile";
     public static final String EMAIL = "email";
     public static final String PROFILE_IMAGE = "profile_image";
+    public static final String SHOP_NAME = "shop_name";
+    public static final String SHOP_IMAGE = "shop_image";
+    public static final String ADDRESS = "address";
+    public static final String PIN_CODE = "pin_code";
 
     public static final String FCM_TOKEN = "fcm_token";
     public static final String IS_FCM_REGISTERED = "is_fcm_registered";
@@ -54,7 +59,7 @@ public class LoginSessionManager {
 
 
     public void createLoginSession(String token_type, String accessToken, String userId, String name, String mobile,
-                                   String email,String profileImage) {
+                                   String email,String profileImage,String shopName,String shopImage,String address,String pinCode) {
 
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(TOKEN_TYPE, token_type);
@@ -64,12 +69,25 @@ public class LoginSessionManager {
         editor.putString(MOBILE, mobile);
         editor.putString(EMAIL, email);
         editor.putString(PROFILE_IMAGE, profileImage);
+        editor.putString(SHOP_NAME, shopName);
+        editor.putString(SHOP_IMAGE, shopImage);
+        editor.putString(ADDRESS, address);
+        editor.putString(PIN_CODE, pinCode);
         editor.commit();
     }
 
 
     public void addProfileImage(String imageUrl) {
         editor.putString(PROFILE_IMAGE, imageUrl);
+        editor.commit();
+    }
+
+    public void addShopDetail(String shopName) {
+        editor.putString(SHOP_NAME,shopName);
+        editor.commit();
+    }
+    public void addShopAddress(String address) {
+        editor.putString(ADDRESS,address);
         editor.commit();
     }
 
@@ -93,6 +111,7 @@ public class LoginSessionManager {
     }
     public void setOnBoardingShown() {
         editor.putBoolean(ON_BOARDING_SHOWN,true);
+        editor.apply();
     }
 
     public HashMap<String, String> getUserDetailsFromSP() {
@@ -104,8 +123,12 @@ public class LoginSessionManager {
         user.put(USER_ID, pref.getString(USER_ID, null));
         user.put(NAME, pref.getString(NAME, "You are Awesome"));
         user.put(MOBILE, pref.getString(MOBILE, null));
-        user.put(EMAIL, pref.getString(EMAIL, "someoneawesom@gmail.com"));
+        user.put(EMAIL, pref.getString(EMAIL, ""));
         user.put(PROFILE_IMAGE, pref.getString(PROFILE_IMAGE, ""));
+        user.put(SHOP_NAME, pref.getString(SHOP_NAME, "null"));
+        user.put(SHOP_IMAGE, pref.getString(SHOP_IMAGE, "null"));
+        user.put(ADDRESS, pref.getString(ADDRESS, "null"));
+        user.put(PIN_CODE, pref.getString(PIN_CODE, "null"));
 
 
 
@@ -148,15 +171,6 @@ public class LoginSessionManager {
     }
 
 
-  /*  public int getDefaultVehicleId() {
-        return pref.getInt(DEFAULT_VEHICLE_ID, -1);
-    }
-
-    public void setDefaultVehicleId(int vehicleId) {
-        editor.putInt(DEFAULT_VEHICLE_ID, vehicleId);
-        editor.commit();
-    }*/
-
     public void setFCMToken(String s) {
         editor.putString(FCM_TOKEN, s);
         editor.commit();
@@ -193,19 +207,5 @@ public class LoginSessionManager {
         editor.commit();
     }
 
-   /*- class ClearRoom extends AsyncTask<Void,Void,Void> {
 
-        private final MyVehicleDao myVehiclesDao;
-
-        public ClearRoom (MekVahanDatabase instance) {
-            myVehiclesDao = instance.getMyVehicleDao();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-           myVehiclesDao.deleteAll();
-            return null;
-        }
-
-    }*/
 }

@@ -30,6 +30,7 @@ import androidx.core.content.ContextCompat;
 
 
 import com.abishek.comidapartner.Home.HomePage;
+import com.abishek.comidapartner.MainActivity;
 import com.abishek.comidapartner.R;
 import com.abishek.comidapartner.commonFiles.LoginSessionManager;
 import com.abishek.comidapartner.commonFiles.MySingleton;
@@ -104,35 +105,32 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
 
 
     private Button btnSave;
-  //  private TextView landmarkView,localityView;
-    private String addressName="home";
+    //  private TextView landmarkView,localityView;
+    private String addressName = "home";
     private EditText otherTypeName;
     private ProgressBar progressBar;
-    private EditText edtCurrentAddress,edtState,edtCity;
-
+    private EditText edtCurrentAddress, edtState, edtCity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_add_new_address);
 
 
-
-
-        if(!isNetworkAvailable(AddNewAddress.this))
-        {
-            Toast.makeText(AddNewAddress.this,"check your Internet connection",Toast.LENGTH_SHORT).show();
+        if (!isNetworkAvailable(AddNewAddress.this)) {
+            Toast.makeText(AddNewAddress.this, "check your Internet connection", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         try {
             findViewByID();
-            startLocationButtonClick();
-         //   pro_bar.setVisibility(View.VISIBLE);
-            configureCameraIdle();
+            if (!hasLocationPermission())
+                requestLocationPermission();
+
+                configureCameraIdle();
             ic_save_proceed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -157,17 +155,15 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
     }
 
 
-
-
     private void configureCameraIdle() {
-        Log.e("apple","helo");
-       // pro_bar.setVisibility(View.VISIBLE);
+        Log.e("apple", "helo");
+        // pro_bar.setVisibility(View.VISIBLE);
         onCameraIdleListener = new GoogleMap.OnCameraIdleListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onCameraIdle() {
                 try {
-               //     pro_bar.setVisibility(View.VISIBLE);
+                    //     pro_bar.setVisibility(View.VISIBLE);
                     LatLng latLng = mMap.getCameraPosition().target;
                     Geocoder geocoder = new Geocoder(AddNewAddress.this);
                     resutText.setText("Loading...");
@@ -184,8 +180,8 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
                             locality_city = addressList.get(0).getLocality();
                             sub_localoty = addressList.get(0).getSubLocality();
                             country_code = addressList.get(0).getCountryCode();
-                            latitude = addressList.get(0).getLatitude()+"";
-                            longitude = addressList.get(0).getLongitude()+"";
+                            latitude = addressList.get(0).getLatitude() + "";
+                            longitude = addressList.get(0).getLongitude() + "";
                             if (locality != null && country != null) {
                                 resutText.setText(locality + "");
                                 edtCurrentAddress.setText(locality);
@@ -193,10 +189,10 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
                                 edtCity.setText(sub_admin);
                                 String[] temp = locality.toString().split(",");
                                 locationView.setText(temp[0]);
-                          //      pro_bar.setVisibility(View.GONE);
+                                //      pro_bar.setVisibility(View.GONE);
                             } else {
                                 resutText.setText("Location could not be fetched...");
-                             //   pro_bar.setVisibility(View.GONE);
+                                //   pro_bar.setVisibility(View.GONE);
                             }
                             progressBar.setVisibility(View.GONE);
                         }
@@ -209,7 +205,7 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
             }
         };
     }
-
+/*
     private void startLocationButtonClick() {
         // Requesting ACCESS_FINE_LOCATION using Dexter library
         try {
@@ -241,7 +237,7 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void findViewByID() {
         try {
@@ -249,7 +245,7 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
             locationView = findViewById(R.id.location);
             img_back = findViewById(R.id.btn_back);
             resutText = findViewById(R.id.detailed_location);
-          //  ic_save_proceed = findViewById(R.id.btn_save_address);
+            //  ic_save_proceed = findViewById(R.id.btn_save_address);
             img_pin = findViewById(R.id.pin);
             progressBar = findViewById(R.id.progress_bar);
             edtCurrentAddress = findViewById(R.id.address);
@@ -257,8 +253,8 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
             edtCity = findViewById(R.id.city);
 
 
-         //   landmarkView = findViewById(R.id.landmark);
-         //   localityView = findViewById(R.id.locality);
+            //   landmarkView = findViewById(R.id.landmark);
+            //   localityView = findViewById(R.id.locality);
 
             btnSave = findViewById(R.id.btn_save_address);
 
@@ -406,8 +402,7 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
 
             case R.id.btn_save_address:// getDataFromUi();
                 startActivity(new Intent(AddNewAddress.this, HomePage.class));
@@ -417,30 +412,23 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
     }
 
 
-
-
-    public void getDataFromUi()
-    {
-        if(resutText.getText().toString().toLowerCase().equals("loading..."))
-        {
-            Toast.makeText(AddNewAddress.this,"Network problem. Try again later.",Toast.LENGTH_SHORT).show();
+    public void getDataFromUi() {
+        if (resutText.getText().toString().toLowerCase().equals("loading...")) {
+            Toast.makeText(AddNewAddress.this, "Network problem. Try again later.", Toast.LENGTH_SHORT).show();
             return;
         }
-      // String landmark = landmarkView.getText().toString();
-     //  String locality = localityView.getText().toString();
+        // String landmark = landmarkView.getText().toString();
+        //  String locality = localityView.getText().toString();
 
-         String currentAddress = edtCurrentAddress.getText().toString();
+        String currentAddress = edtCurrentAddress.getText().toString();
 
-        if(longitude.equals("")||latitude.equals(""))
-        {
-            Toast.makeText(AddNewAddress.this,"Something went wrong",Toast.LENGTH_SHORT).show();
+        if (longitude.equals("") || latitude.equals("")) {
+            Toast.makeText(AddNewAddress.this, "Something went wrong", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
-
-
-      //  saveAddressToDatabase();
+        //  saveAddressToDatabase();
     }
 
    /* public void saveAddressToDatabase() {
@@ -530,4 +518,40 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
 
     }
 */
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && requestCode == 100) {
+            if (ContextCompat.checkSelfPermission(AddNewAddress.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.map);
+                if (mapFragment != null) {
+                    mapFragment.getMapAsync(this);
+                }
+                    configureCameraIdle();
+            }
+        } else {
+            requestLocationPermission();
+        }
+
+
+    }
+
+
+    private boolean hasLocationPermission() {
+        return (ActivityCompat.checkSelfPermission(AddNewAddress.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                && (ActivityCompat.checkSelfPermission(AddNewAddress.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    }
+
+
+    private void requestLocationPermission() {
+        String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION};
+        ActivityCompat.requestPermissions(AddNewAddress.this, permissions, 100);
+    }
 }

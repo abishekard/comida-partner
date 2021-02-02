@@ -27,6 +27,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import org.json.JSONException;
@@ -35,6 +38,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_FCM;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_LOGIN;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.NO_OF_RETRY;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.RETRY_SECONDS;
 
 
 public class OtpVerification extends AppCompatActivity implements View.OnClickListener {
@@ -74,8 +81,8 @@ public class OtpVerification extends AppCompatActivity implements View.OnClickLi
 
         switch (v.getId())
         {
-            case R.id.verify: //getDataFromUi();
-                startActivity(new Intent(OtpVerification.this, AddShopDetails.class));
+            case R.id.verify: getDataFromUi();
+               // startActivity(new Intent(OtpVerification.this, AddShopDetails.class));
                 break;
         }
     }
@@ -139,12 +146,12 @@ public class OtpVerification extends AppCompatActivity implements View.OnClickLi
             return;
         }
 
-      //  verifyOtpAndLogin(email,otp);
+        verifyOtpAndLogin(email,otp);
     }
 
 
 
-  /*  public void verifyOtpAndLogin(String email,String otp)
+    public void verifyOtpAndLogin(String email,String otp)
     {
 
 
@@ -165,15 +172,19 @@ public class OtpVerification extends AppCompatActivity implements View.OnClickLi
 
                     String accessToken = jsonObject.getString("access_token");
                     String tokeType = jsonObject.getString("token_type");
-                    JSONObject data = jsonObject.getJSONObject("data");
+                    JSONObject data = jsonObject.getJSONArray("data").getJSONObject(0);
                     String name = data.getString("name");
                     String userId =data.getString("id");
                     String email = data.getString("email");
                     String mobile = data.getString("mobile");
+                    String shopName = data.getString("shop_name");
+                    String shopImage = data.getString("shop_image");
                     String profileImage = data.getString("profile_image");
+                    String address = data.getString("address");
+                    String pincode = data.getString("pincode");
 
                     LoginSessionManager loginSessionManager = new LoginSessionManager(OtpVerification.this);
-                    loginSessionManager.createLoginSession(tokeType,accessToken,userId,name,mobile,email,profileImage);
+                    loginSessionManager.createLoginSession(tokeType,accessToken,userId,name,mobile,email,profileImage,shopName,shopImage,address,pincode);
                     Toast.makeText(OtpVerification.this,"Login Successful",Toast.LENGTH_SHORT).show();
 
                     registerFcm(userId);
@@ -243,7 +254,7 @@ public class OtpVerification extends AppCompatActivity implements View.OnClickLi
 
 
 
-        FirebaseMessaging.getInstance().subscribeToTopic("all")
+        FirebaseMessaging.getInstance().subscribeToTopic("partner")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -283,6 +294,7 @@ public class OtpVerification extends AppCompatActivity implements View.OnClickLi
                     }
 
 
+                    startActivity(new Intent(OtpVerification.this,HomePage.class));
 
                     finish();
 
@@ -321,6 +333,6 @@ public class OtpVerification extends AppCompatActivity implements View.OnClickLi
         MySingleton.getInstance(OtpVerification.this).addToRequestQueue(stringRequest);
 
 
-    }*/
+    }
 
 }

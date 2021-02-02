@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "716932531303",
+    "project_id": "comida-35ebc",
+    "storage_bucket": "comida-35ebc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716932531303:android:ff9fb864250900c483c0c2",
+        "android_client_info": {
+          "package_name": "com.abishek.comida"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "716932531303-sftj230c83l0l8knv7eh603e3kvg10h1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJJ1Zkg4VBpMmhLkZ9AIiLktCVsZAnTDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "716932531303-sftj230c83l0l8knv7eh603e3kvg10h1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716932531303:android:1bf4de1842ea82a983c0c2",
+        "android_client_info": {
+          "package_name": "com.abishek.comidapartner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "716932531303-sftj230c83l0l8knv7eh603e3kvg10h1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJJ1Zkg4VBpMmhLkZ9AIiLktCVsZAnTDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "716932531303-sftj230c83l0l8knv7eh603e3kvg10h1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
