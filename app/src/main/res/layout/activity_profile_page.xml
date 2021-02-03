@@ -277,7 +277,7 @@
                     android:text="Available to take Order" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/has_insurance"
+                    android:id="@+id/available_switch"
                     android:layout_width="50dp"
                     android:layout_height="10dp"
                     android:padding="3dp"

@@ -66,7 +66,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_GET_ADDRESS;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.NO_OF_RETRY;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.RETRY_SECONDS;
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.isNetworkAvailable;
+import static com.abishek.comidapartner.commonFiles.LoginSessionManager.ACCESS_TOKEN;
+import static com.abishek.comidapartner.commonFiles.LoginSessionManager.TOKEN_TYPE;
 
 
 public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallback,
@@ -106,10 +111,11 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
 
     private Button btnSave;
     //  private TextView landmarkView,localityView;
-    private String addressName = "home";
-    private EditText otherTypeName;
+
+
     private ProgressBar progressBar;
     private EditText edtCurrentAddress, edtState, edtCity;
+    private String userId;
 
 
     @Override
@@ -127,6 +133,7 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         try {
             findViewByID();
+            getUserId();
             if (!hasLocationPermission())
                 requestLocationPermission();
 
@@ -157,7 +164,6 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
 
     private void configureCameraIdle() {
         Log.e("apple", "helo");
-        // pro_bar.setVisibility(View.VISIBLE);
         onCameraIdleListener = new GoogleMap.OnCameraIdleListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -174,19 +180,25 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
                             locality = addressList.get(0).getAddressLine(0);
                             country = addressList.get(0).getCountryName();
                             state = addressList.get(0).getAdminArea();
-                            sub_admin = addressList.get(0).getSubAdminArea();
-                            city = addressList.get(0).getFeatureName();
+                           // sub_admin = addressList.get(0).getSubAdminArea();
+                            city= addressList.get(0).getSubAdminArea();
+                           // city = addressList.get(0).getFeatureName();
+
                             pincode = addressList.get(0).getPostalCode();
                             locality_city = addressList.get(0).getLocality();
                             sub_localoty = addressList.get(0).getSubLocality();
                             country_code = addressList.get(0).getCountryCode();
                             latitude = addressList.get(0).getLatitude() + "";
                             longitude = addressList.get(0).getLongitude() + "";
+
+                            Log.e(TAG,"......city:"+city+"su_local: "+locality_city);
+                            Log.e(TAG,"lat: "+latitude+" long: "+longitude);
+
                             if (locality != null && country != null) {
                                 resutText.setText(locality + "");
                                 edtCurrentAddress.setText(locality);
                                 edtState.setText(state);
-                                edtCity.setText(sub_admin);
+                                edtCity.setText(locality_city);
                                 String[] temp = locality.toString().split(",");
                                 locationView.setText(temp[0]);
                                 //      pro_bar.setVisibility(View.GONE);
@@ -404,8 +416,8 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.btn_save_address:// getDataFromUi();
-                startActivity(new Intent(AddNewAddress.this, HomePage.class));
+            case R.id.btn_save_address: getDataFromUi();
+              //  startActivity(new Intent(AddNewAddress.this, HomePage.class));
                 break;
 
         }
@@ -417,10 +429,14 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
             Toast.makeText(AddNewAddress.this, "Network problem. Try again later.", Toast.LENGTH_SHORT).show();
             return;
         }
-        // String landmark = landmarkView.getText().toString();
-        //  String locality = localityView.getText().toString();
+
 
         String currentAddress = edtCurrentAddress.getText().toString();
+
+        if (currentAddress.equals("")) {
+            Toast.makeText(AddNewAddress.this, "Please enter and address", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (longitude.equals("") || latitude.equals("")) {
             Toast.makeText(AddNewAddress.this, "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -428,16 +444,17 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
         }
 
 
-        //  saveAddressToDatabase();
+        Log.e(TAG,"lat: "+latitude+" long: "+longitude);
+          saveAddressToDatabase(currentAddress);
     }
 
-   /* public void saveAddressToDatabase() {
+    public void saveAddressToDatabase(String currentAddress) {
 
 
         Log.e(TAG, "saveAddress : called");
 
         btnSave.setEnabled(false);
-        final String URL = BASE_ADDRESS_ADD;
+        final String URL = BASE_GET_ADDRESS;
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -453,11 +470,13 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
 
                     if(status != 200)
                     {
-                        Toast.makeText(com.abishek.comida.address.AddNewAddress.this,"Something went wrong (server)",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddNewAddress.this,"Something went wrong (server)",Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    Toast.makeText(com.abishek.comida.address.AddNewAddress.this,"Address Added",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddNewAddress.this,"Address Added",Toast.LENGTH_SHORT).show();
+                    new LoginSessionManager(AddNewAddress.this).addShopAddress(currentAddress);
+                    startActivity(new Intent(AddNewAddress.this,HomePage.class));
                     finish();
 
                 } catch (JSONException e) {
@@ -472,7 +491,7 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.toString());
 
-                Toast.makeText(com.abishek.comida.address.AddNewAddress.this,"server problem",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddNewAddress.this,"server problem",Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -480,8 +499,8 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> header = new HashMap<>();
 
-                String tokenType = new LoginSessionManager(com.abishek.comida.address.AddNewAddress.this).getUserDetailsFromSP().get(TOKEN_TYPE);
-                String accessToken = new LoginSessionManager(com.abishek.comida.address.AddNewAddress.this).getUserDetailsFromSP().get(ACCESS_TOKEN);
+                String tokenType = new LoginSessionManager(AddNewAddress.this).getUserDetailsFromSP().get(TOKEN_TYPE);
+                String accessToken = new LoginSessionManager(AddNewAddress.this).getUserDetailsFromSP().get(ACCESS_TOKEN);
 
                 header.put("Accept", "application/json");
                 header.put("Authorization", tokenType + " " + accessToken);
@@ -495,15 +514,15 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 HashMap<String,String> params = new HashMap<>();
-                params.put("address",locality);
+                params.put("address",currentAddress);
                 params.put("state",state);
                 params.put("city",city);
                 params.put("pincode",pincode);
                 params.put("latitude",latitude);
                 params.put("longitude",longitude);
-                params.put("landmark",landmarkView.getText().toString());
-                params.put("locality",localityView.getText().toString());
-                params.put("address_type",addressName);
+                params.put("local_city",locality_city);
+                params.put("id",userId);
+
 
 
                 return params;
@@ -513,11 +532,10 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy((RETRY_SECONDS),
                 NO_OF_RETRY, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        MySingleton.getInstance(com.abishek.comida.address.AddNewAddress.this).addToRequestQueue(stringRequest);
+        MySingleton.getInstance(AddNewAddress.this).addToRequestQueue(stringRequest);
 
 
     }
-*/
 
 
     @Override
@@ -553,5 +571,14 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
         String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
         ActivityCompat.requestPermissions(AddNewAddress.this, permissions, 100);
+    }
+
+    public void getUserId() {
+        LoginSessionManager loginSessionManager = new LoginSessionManager(AddNewAddress.this);
+
+        HashMap<String, String> user = loginSessionManager.getUserDetailsFromSP();
+        userId = user.get("user_id");
+
+
     }
 }

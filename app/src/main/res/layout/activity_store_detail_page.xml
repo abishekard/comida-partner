@@ -55,15 +55,15 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Owner Name"
                 android:textSize="12sp" />
 
-            <EditText
-
+            <TextView
+                android:id="@+id/owner_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -71,29 +71,48 @@
                 android:backgroundTint="@color/grey_light"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textSize="15sp"
+                android:text="abishek kumar"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dirty_white"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Shop Name"
                 android:textSize="12sp" />
 
-            <EditText
-
+            <TextView
+               android:id="@+id/shop_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/grey_light"
                 android:fontFamily="@font/montserrat_semi_bold"
-                android:textSize="15sp"
+                android:text="raju sweets"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
                 android:textStyle="bold" />
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dirty_white"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                />
 
 
 
@@ -106,6 +125,7 @@
                 app:cardCornerRadius="5dp"
                 android:paddingBottom="10dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="5dp"
                 >
 
@@ -156,6 +176,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/open_time"
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
@@ -185,6 +206,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/close_time"
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
@@ -202,15 +224,15 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Shop Speciality"
                 android:textSize="12sp" />
 
-            <EditText
-
+            <TextView
+                android:id="@+id/speciality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -218,20 +240,32 @@
                 android:backgroundTint="@color/grey_light"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:text="speciality"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dirty_white"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                />
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Gst Number"
                 android:textSize="12sp" />
 
-            <EditText
-
+            <TextView
+                android:id="@+id/gst_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -239,7 +273,18 @@
                 android:backgroundTint="@color/grey_light"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:text="12345"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dirty_white"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -251,8 +296,9 @@
                 android:text="Aadhar Number"
                 android:textSize="12sp" />
 
-            <EditText
+            <TextView
 
+                android:id="@+id/aadhar_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -260,8 +306,20 @@
                 android:backgroundTint="@color/grey_light"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:text="12345"
                 android:inputType="number"
                 android:textStyle="bold" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dirty_white"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -281,11 +339,13 @@
                 android:layout_marginEnd="20dp"
                 >
                 <ImageView
+                    android:id="@+id/aadhar_back"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@mipmap/upload_front"/>
 
                 <ImageView
+                    android:id="@+id/aadhar_front"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginStart="20dp"
@@ -303,6 +363,7 @@
                 android:text="Shop Image"
                 android:textSize="12sp" />
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/shop_image"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_marginStart="20dp"
@@ -312,7 +373,7 @@
                 android:src="@mipmap/add_store_image"/>
 
             <Button
-                android:id="@+id/proceed"
+                android:id="@+id/btn_done"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_btn_login"

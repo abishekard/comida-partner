@@ -282,7 +282,7 @@
                     android:id="@+id/aadhar_front"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@mipmap/upload_front"/>
+                    android:src="@mipmap/upload_back"/>
 
                 <ImageView
                     android:id="@+id/aadhar_back"

@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abishek.comidapartner.Home.profile.StoreDetailPage;
 import com.abishek.comidapartner.R;
 import com.abishek.comidapartner.commonFiles.LoginSessionManager;
 import com.androidnetworking.AndroidNetworking;
@@ -62,6 +64,7 @@ public class AddShopDetails extends AppCompatActivity implements View.OnClickLis
     private File aadharFrontFile, aadharBackFile, shopFile;
     int currentImageView = 0;
     private String openTime, closeTime;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,9 @@ public class AddShopDetails extends AppCompatActivity implements View.OnClickLis
 
         inItUi();
         getUserIdAndName();
+        progressDialog = new ProgressDialog(AddShopDetails.this);
+        progressDialog.setMessage("wait...");
+        progressDialog.setCancelable(false);
     }
 
     public void inItUi() {
@@ -351,6 +357,7 @@ public class AddShopDetails extends AppCompatActivity implements View.OnClickLis
         String url = BASE_GET_SHOP;
         Log.e(TAG,"setDataToServer: called");
 
+        progressDialog.show();
         AndroidNetworking.upload(url)
                 .addMultipartFile("aadhar_front", aadharFrontFile)
                 .addMultipartFile("aadhar_back", aadharBackFile)
@@ -386,18 +393,22 @@ public class AddShopDetails extends AppCompatActivity implements View.OnClickLis
 
                                 new LoginSessionManager(AddShopDetails.this).addShopDetail(shopName);
                                 startActivity(new Intent(AddShopDetails.this,AddNewAddress.class));
+                                progressDialog.dismiss();
                                 finish();
 
                             }
                             if(status==300)
                             {
                                 Toast.makeText(AddShopDetails.this, "gst or Aadhar already registered.", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
                             }
+
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
 
+                            progressDialog.dismiss();
                             Log.e(TAG, e.toString());
                         }
 
@@ -409,6 +420,7 @@ public class AddShopDetails extends AppCompatActivity implements View.OnClickLis
                         // handle error
                         Log.e(TAG, error.getErrorBody());
 
+                        progressDialog.dismiss();
                         if (error.getErrorCode() != 0) {
                             // received error from server
                             Log.d(TAG, "onError errorCode : " + error.getErrorCode());
