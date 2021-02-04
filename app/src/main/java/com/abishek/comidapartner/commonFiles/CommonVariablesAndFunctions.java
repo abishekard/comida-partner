@@ -25,9 +25,9 @@ public class CommonVariablesAndFunctions {
     public static final String BASE_GET_ADDRESS = BASE+"get/address";
     public static final String BASE_PROFILE_SHOW = BASE+"profile/show/";
     public static final String BASE_PROFILE_EDIT = BASE+"profile/edit";
+    public static final String BASE_PRODUCT_CATEGORY = BASE+"product/show";
+    public static final String BASE_PRODUCT_CREATE = BASE+"product/create";
 
-    public static final String BASE_PRODUCT_CATEGORY = BASE+"product/category/all/";
-    public static final String BASE_RESTAURANT_ALL = BASE+"restaurent/all";
     public static final String BASE_RESTAURANT_INFO = BASE+"partner/info/";
 
     public static final String BASE_ADDRESS_SHOW = BASE+"show/address/";

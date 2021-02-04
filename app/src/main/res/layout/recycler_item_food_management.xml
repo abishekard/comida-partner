@@ -80,6 +80,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/discount_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -99,6 +100,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/veg_or_non_veg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|top"
@@ -110,7 +112,7 @@
                     android:layout_weight="1" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/has_insurance"
+                    android:id="@+id/in_stock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -142,6 +144,7 @@
 
             <TextView
 
+                android:id="@+id/btn_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -156,6 +159,7 @@
 
             <TextView
 
+                android:id="@+id/btn_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

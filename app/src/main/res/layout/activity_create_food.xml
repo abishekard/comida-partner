@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Home.foodMangement.CreateFood">
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -40,7 +40,6 @@
     </LinearLayout>
 
 
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -53,25 +52,27 @@
             android:orientation="vertical">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/food_image"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:scaleType="centerCrop"
-                android:layout_gravity="center_horizontal"
-                app:shapeAppearanceOverlay="@style/roundedCornerImageView"
-                android:src="@mipmap/add_food_imafe"/>
+                android:src="@mipmap/add_food_imafe"
+                app:shapeAppearanceOverlay="@style/roundedCornerImageView" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:textColor="@color/colorPrimary"
-                android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="food Image"
+                android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,6 +85,7 @@
 
             <EditText
 
+                android:id="@+id/food_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -92,7 +94,8 @@
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-  <androidx.cardview.widget.CardView
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -100,6 +103,7 @@
                 android:layout_marginEnd="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="5dp">
+
                 <Spinner
                     android:id="@+id/veg_or_non_veg"
                     android:layout_width="match_parent"
@@ -126,17 +130,19 @@
 
             <EditText
 
+                android:id="@+id/price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/grey_light"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:textSize="15sp"
                 android:drawableLeft="@drawable/ic_indian_rupee"
                 android:drawablePadding="10dp"
+                android:fontFamily="@font/montserrat_semi_bold"
                 android:inputType="number"
+                android:textSize="15sp"
                 android:textStyle="bold" />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -145,6 +151,7 @@
                 android:layout_marginEnd="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="5dp">
+
                 <Spinner
                     android:id="@+id/choose_price_type"
                     android:layout_width="match_parent"
@@ -170,17 +177,18 @@
 
             <EditText
 
+                android:id="@+id/discount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/grey_light"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:textSize="15sp"
                 android:drawableLeft="@drawable/ic_indian_rupee"
                 android:drawablePadding="10dp"
+                android:fontFamily="@font/montserrat_semi_bold"
                 android:inputType="number"
-                android:text="00"
+                android:text="0"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <androidx.cardview.widget.CardView
@@ -191,6 +199,7 @@
                 android:layout_marginEnd="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="5dp">
+
                 <Spinner
                     android:id="@+id/food_category"
                     android:layout_width="match_parent"
@@ -205,33 +214,27 @@
             </androidx.cardview.widget.CardView>
 
 
-
-<Space
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"/>
-
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
 
             <Button
-                android:id="@+id/proceed"
+                android:id="@+id/btn_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_btn_login"
-                android:text="add"
-                android:textColor="@color/white"
                 android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                />
+                android:background="@drawable/background_btn_login"
+                android:text="add"
+                android:textColor="@color/white" />
         </LinearLayout>
 
 
-
     </androidx.core.widget.NestedScrollView>
-
-
 
 
 </LinearLayout>
