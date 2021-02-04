@@ -27,17 +27,16 @@ public class CommonVariablesAndFunctions {
     public static final String BASE_PROFILE_EDIT = BASE+"profile/edit";
     public static final String BASE_PRODUCT_CATEGORY = BASE+"product/show";
     public static final String BASE_PRODUCT_CREATE = BASE+"product/create";
+    public static final String BASE_PRODUCT_DELETE = BASE+"product/delete/";
+    public static final String BASE_CHANGE_STOCK = BASE+"product/change/stock";
+    public static final String BASE_ORDER_NEW = BASE+"order/new/";
+    public static final String BASE_ORDER_PROGRESS = BASE+"order/progress/";
+    public static final String BASE_ORDER_COMPLETED = BASE+"order/completed/";
 
-    public static final String BASE_RESTAURANT_INFO = BASE+"partner/info/";
-
-    public static final String BASE_ADDRESS_SHOW = BASE+"show/address/";
-    public static final String BASE_ADDRESS_ADD = BASE+"create/address";
-    public static final String BASE_ADDRESS_DELETE = BASE+"delete/address/";
-
-    public static final String BASE_PLACE_ORDER = BASE+"placeOrder";
+   /* public static final String BASE_PLACE_ORDER = BASE+"placeOrder";
     public static final String BASE_NEW_ORDER = BASE+"orders/new/";
     public static final String BASE_COMPLETE_ORDER = BASE+"orders/completed/";
-    public static final String BASE_ORDER_DETAIL = BASE+"order/detail/";
+    public static final String BASE_ORDER_DETAIL = BASE+"order/detail/";*/
 
 
 

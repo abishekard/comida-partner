@@ -7,7 +7,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abishek.comidapartner.Home.adapter.TabAdapter;
-import com.abishek.comidapartner.Home.foodMangement.FoodMangement;
+import com.abishek.comidapartner.Home.foodMangement.FoodManagement;
 import com.abishek.comidapartner.Home.profile.ProfilePage;
 import com.abishek.comidapartner.Home.sales.Sales;
 import com.abishek.comidapartner.R;
@@ -139,7 +138,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(new Intent(HomePage.this, FoodMangement.class));
+                        startActivity(new Intent(HomePage.this, FoodManagement.class));
                         setBottomIcon();
                     }
                 }, 300);
@@ -188,7 +187,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
         navFoodManagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomePage.this, FoodMangement.class));
+                startActivity(new Intent(HomePage.this, FoodManagement.class));
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });

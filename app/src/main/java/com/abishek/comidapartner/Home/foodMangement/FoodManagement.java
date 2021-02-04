@@ -21,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +34,7 @@ import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.NO_OF_RETRY;
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.RETRY_SECONDS;
 
-public class FoodMangement extends AppCompatActivity {
+public class FoodManagement extends AppCompatActivity {
 
     private static final String TAG ="FoodManagement" ;
     private FloatingActionButton createFood;
@@ -52,13 +51,13 @@ public class FoodMangement extends AppCompatActivity {
         categoryRecycler = findViewById(R.id.category_recycler_view);
 
 
-        userId = new LoginSessionManager(FoodMangement.this).getUserDetailsFromSP().get("user_id");
+        userId = new LoginSessionManager(FoodManagement.this).getUserDetailsFromSP().get("user_id");
 
         createFood = findViewById(R.id.create_food);
         createFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FoodMangement.this,CreateFood.class));
+                startActivity(new Intent(FoodManagement.this,CreateFood.class));
             }
         });
 
@@ -132,7 +131,7 @@ public class FoodMangement extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.toString());
 
-                Toast.makeText(FoodMangement.this,"server problem",Toast.LENGTH_SHORT).show();
+                Toast.makeText(FoodManagement.this,"server problem",Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -164,7 +163,7 @@ public class FoodMangement extends AppCompatActivity {
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy((RETRY_SECONDS),
                 NO_OF_RETRY, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        MySingleton.getInstance(FoodMangement.this).addToRequestQueue(stringRequest);
+        MySingleton.getInstance(FoodManagement.this).addToRequestQueue(stringRequest);
 
 
     }
@@ -172,8 +171,8 @@ public class FoodMangement extends AppCompatActivity {
     private void setDataToView()
     {
         categoryRecycler = findViewById(R.id.category_recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(FoodMangement.this);
-        ProductParentAdapter productParentAdapter = new ProductParentAdapter(categoryList,FoodMangement.this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(FoodManagement.this);
+        ProductParentAdapter productParentAdapter = new ProductParentAdapter(categoryList, FoodManagement.this);
         categoryRecycler.setAdapter(productParentAdapter);
         categoryRecycler.setLayoutManager(linearLayoutManager);
         productParentAdapter.notifyDataSetChanged();

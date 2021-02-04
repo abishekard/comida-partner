@@ -48,7 +48,7 @@
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".Home.foodMangement.FoodMangement"
+            android:name=".Home.foodMangement.FoodManagement"
             android:screenOrientation="portrait" />
         <activity
             android:name=".loginAndSignUp.AddShopDetails"
