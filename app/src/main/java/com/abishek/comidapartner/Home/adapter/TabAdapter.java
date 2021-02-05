@@ -17,7 +17,7 @@ public class TabAdapter extends FragmentPagerAdapter {
     int totalTabs;
     ViewPager viewPager;
     public TabAdapter(Context c, FragmentManager fm, int totalTabs, ViewPager viewPager) {
-        super(fm);
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         context = c;
         this.totalTabs = totalTabs;
         this.viewPager = viewPager;

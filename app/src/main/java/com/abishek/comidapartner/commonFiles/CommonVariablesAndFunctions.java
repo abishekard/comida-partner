@@ -32,11 +32,14 @@ public class CommonVariablesAndFunctions {
     public static final String BASE_ORDER_NEW = BASE+"order/new/";
     public static final String BASE_ORDER_PROGRESS = BASE+"order/progress/";
     public static final String BASE_ORDER_COMPLETED = BASE+"order/completed/";
+    public static final String BASE_ORDER_DETAIL = BASE+"order/detail/";
+    public static final String BASE_ORDER_QUEUE = BASE+"order/queue";
+    public static final String BASE_ORDER_DISPATCH = BASE+"order/dispatch";
 
    /* public static final String BASE_PLACE_ORDER = BASE+"placeOrder";
     public static final String BASE_NEW_ORDER = BASE+"orders/new/";
     public static final String BASE_COMPLETE_ORDER = BASE+"orders/completed/";
-    public static final String BASE_ORDER_DETAIL = BASE+"order/detail/";*/
+    */
 
 
 

@@ -28,14 +28,17 @@ import com.abishek.comidapartner.loginAndSignUp.Login;
 import com.abishek.comidapartner.notification.NotificationHomePage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_IMAGE;
 
 public class HomePage extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = "HomePage";
 
-    private ImageView botNavProfile, botNavFoodManagement, botNavSale, botNavMenu;
+    private ImageView botNavProfile, botNavFoodManagement, botNavSale, botNavMenu,navProfileImage;
     private FloatingActionButton fabHome;
     private DrawerLayout drawerLayout;
     private TextView navProfile, navFoodManagement, navSales, navNotifications, navFaq, navAboutUs, navLogout;
@@ -92,6 +95,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
         botNavMenu = findViewById(R.id.bot_nav_menu);
         fabHome = findViewById(R.id.home);
         drawerLayout = findViewById(R.id.drawer_layout);
+
 
         botNavProfile.setOnClickListener(this);
         botNavFoodManagement.setOnClickListener(this);
@@ -175,6 +179,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
         navFaq = findViewById(R.id.faqs);
         navAboutUs = findViewById(R.id.about_us);
         navLogout = findViewById(R.id.logout);
+        navProfileImage = findViewById(R.id.nav_profile_image);
 
         navProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +230,9 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
 
             }
         });
+        String profileImage = new LoginSessionManager(HomePage.this).getUserDetailsFromSP().get("profile_image");
+        if(!profileImage.equals("null"))
+            Picasso.get().load(BASE_IMAGE+profileImage).into(navProfileImage);
     }
 
     public void setTabLayout() {
@@ -232,6 +240,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
 
+        tabLayout.removeAllTabs();
         tabLayout.addTab(tabLayout.newTab().setText("New Order"));
         tabLayout.addTab(tabLayout.newTab().setText("In Progress"));
         tabLayout.addTab(tabLayout.newTab().setText("History"));
@@ -267,5 +276,13 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+     //  setTabLayout();
+        Log.e(TAG,".........onResume");
     }
 }

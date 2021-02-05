@@ -5,15 +5,18 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.abishek.comidapartner.Home.fragment.adapter.OrderAdapter;
+import com.abishek.comidapartner.Home.fragment.model.MyOrderModel;
 import com.abishek.comidapartner.R;
 import com.abishek.comidapartner.commonFiles.LoginSessionManager;
 import com.abishek.comidapartner.commonFiles.MySingleton;
@@ -59,6 +62,9 @@ public class NewOrder extends Fragment {
     private List<MyOrderModel> orderList;
 
     private LinearLayout card;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ProgressBar progressBar;
+    private  View view;
 
     public NewOrder() {
         // Required empty public constructor
@@ -95,12 +101,21 @@ public class NewOrder extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_new_order, container, false);
+        view = inflater.inflate(R.layout.fragment_new_order, container, false);
 
+        swipeRefreshLayout = view.findViewById(R.id.refresh_layout);
+        progressBar = view.findViewById(R.id.progress_bar);
         userId = new LoginSessionManager(getContext()).getUserDetailsFromSP().get("user_id");
 
+      //  fetchNewOrders(view);
 
-        fetchNewOrders(view);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                fetchNewOrders(view);
+            }
+        });
         return view;
     }
 
@@ -111,6 +126,7 @@ public class NewOrder extends Fragment {
 
         Log.e(TAG, "fetchAllProductList : called");
 
+        progressBar.setVisibility(View.VISIBLE);
         final String URL = BASE_ORDER_NEW+userId;
         orderList = new ArrayList<>();
 
@@ -130,8 +146,10 @@ public class NewOrder extends Fragment {
                     if(subJson.length()==0)
                     {
                         Toast.makeText(getContext(),"no order",Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                         return;
                     }
+
 
                     for(int i=0;i<subJson.length();i++)
                     {
@@ -142,12 +160,12 @@ public class NewOrder extends Fragment {
                         String status = childJson.getString("status");
                         String date =childJson.getString("created_at");
                         String totalPrice=childJson.getString("total_price");
-                        String partnerId=childJson.getString("partner_id");
+                        String userId=childJson.getString("user_id");
                         String Image=childJson.getString("image");
 
 
 
-                        orderList.add(new MyOrderModel(orderId,deliveredAddress,cAddressId,status,date,totalPrice,partnerId,Image));
+                        orderList.add(new MyOrderModel(orderId,deliveredAddress,cAddressId,status,date,totalPrice,userId,Image));
                     }
 
 
@@ -208,6 +226,15 @@ public class NewOrder extends Fragment {
         orderRecyclerView.setLayoutManager(linearLayoutManager);
         orderRecyclerView.setAdapter(orderAdapter);
         orderAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        fetchNewOrders(view);
+        Log.e(TAG,"...NewOrder..onResume.........");
     }
 
 }

@@ -28,6 +28,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +51,7 @@ public class StoreDetailPage extends AppCompatActivity {
             closeTimeView, openTimeView;
     private Button btnDone;
     private ProgressDialog progressDialog;
+    private TextView btnEditProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,7 @@ public class StoreDetailPage extends AppCompatActivity {
         inItUi();
         getUserId();
 
-        fetchProductList();
+
 
 
     }
@@ -75,6 +79,7 @@ public class StoreDetailPage extends AppCompatActivity {
 
         closeTimeView = findViewById(R.id.close_time);
         openTimeView = findViewById(R.id.open_time);
+        btnEditProfile = findViewById(R.id.edit_profile);
 
         btnDone = findViewById(R.id.btn_done);
 
@@ -82,6 +87,13 @@ public class StoreDetailPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(StoreDetailPage.this,EditShopDetails.class));
             }
         });
     }
@@ -124,8 +136,20 @@ public class StoreDetailPage extends AppCompatActivity {
 
                     ownerNameView.setText(name);
                     shopNameView.setText(shopName);
-                    openTimeView.setText(openTime);
-                    closeTimeView.setText(closeTime);
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+                    SimpleDateFormat sdfs = new SimpleDateFormat("hh:mm a");
+                    Date dtOpen,dtClose;
+                    try {
+                        dtOpen = sdf.parse(openTime);
+                        dtClose = sdf.parse(closeTime);
+                        openTimeView.setText(sdfs.format(dtOpen));
+                        closeTimeView.setText(sdfs.format(dtClose));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                   // openTimeView.setText(openTime);
+                   // closeTimeView.setText(closeTime);
                     shopSpecialityView.setText(speciality);
                     gstNumberView.setText(gstNumber);
                     aadharNumberView.setText(aadharNum);
@@ -188,5 +212,11 @@ public class StoreDetailPage extends AppCompatActivity {
         userId = user.get("user_id");
 
 
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        fetchProductList();
     }
 }

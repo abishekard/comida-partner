@@ -1,4 +1,4 @@
-package com.abishek.comidapartner.Home.fragment;
+package com.abishek.comidapartner.Home.fragment.model;
 
 public class MyOrderModel {
 
@@ -22,6 +22,10 @@ public class MyOrderModel {
         this.totalPrice = totalPrice;
         this.partnerId = partnerId;
         this.image = image;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getOrderId() {
@@ -48,7 +52,7 @@ public class MyOrderModel {
         return totalPrice;
     }
 
-    public String getPartnerId() {
+    public String getUserId() {
         return partnerId;
     }
 

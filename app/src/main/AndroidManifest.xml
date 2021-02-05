@@ -20,9 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Home.profile.EditShopDetails"
+            android:screenOrientation="portrait"
+            ></activity>
         <activity
             android:name=".splashScreen.SplashScreen"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Home.fragment.OrderDetail"
             android:screenOrientation="portrait" />
@@ -44,9 +47,9 @@
         <activity
             android:name=".Home.sales.Sales"
             android:screenOrientation="portrait" />
-        <activity android:name=".Home.profile.ProfilePage"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".Home.profile.ProfilePage"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Home.foodMangement.FoodManagement"
             android:screenOrientation="portrait" />

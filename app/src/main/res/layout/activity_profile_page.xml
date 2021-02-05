@@ -56,7 +56,7 @@
                 android:id="@+id/profile_image"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/face"
                 android:layout_marginTop="20dp"
                 app:shapeAppearanceOverlay="@style/circleImageView" />

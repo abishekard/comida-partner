@@ -5,14 +5,17 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.abishek.comidapartner.Home.fragment.adapter.OrderAdapter2;
+import com.abishek.comidapartner.Home.fragment.model.MyOrderModel;
 import com.abishek.comidapartner.R;
 import com.abishek.comidapartner.commonFiles.LoginSessionManager;
 import com.abishek.comidapartner.commonFiles.MySingleton;
@@ -57,6 +60,12 @@ public class InProgress extends Fragment {
     private String userId;
     private List<MyOrderModel> orderList;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ProgressBar progressBar;
+
+    private SwipeRefreshLayout.OnRefreshListener refreshListener;
+    private  View view;
+
     public InProgress() {
         // Required empty public constructor
     }
@@ -92,21 +101,39 @@ public class InProgress extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_in_progress, container, false);
+        view = inflater.inflate(R.layout.fragment_in_progress, container, false);
 
         userId = new LoginSessionManager(getContext()).getUserDetailsFromSP().get("user_id");
 
+        swipeRefreshLayout = view.findViewById(R.id.refresh_layout);
+        progressBar = view.findViewById(R.id.progress_bar);
+      //  fetchProgressOrders(view);
 
-        fetchNewOrders(view);
+       // swipeRefreshLayout.setRefreshing(true);
+
+    /*    refreshListener = () -> {
+            swipeRefreshLayout.setRefreshing(false);
+            fetchProgressOrders(view);
+            Log.e(TAG,".....onRefresh");
+        };
+*/
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                fetchProgressOrders(view);
+            }
+        });
 
         return view;
     }
 
 
-    public void fetchNewOrders(View view)
+    public void fetchProgressOrders(View view)
     {
 
 
+        progressBar.setVisibility(View.VISIBLE);
         Log.e(TAG, "fetchAllProductList : called");
 
         final String URL = BASE_ORDER_PROGRESS+userId;
@@ -128,6 +155,7 @@ public class InProgress extends Fragment {
                     if(subJson.length()==0)
                     {
                         Toast.makeText(getContext(),"no order",Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                         return;
                     }
 
@@ -202,10 +230,25 @@ public class InProgress extends Fragment {
         RecyclerView orderRecyclerView = v.findViewById(R.id.order_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        OrderAdapter2 orderAdapter = new OrderAdapter2(orderList,getContext(),"new");
+        OrderAdapter2 orderAdapter = new OrderAdapter2(orderList,getContext(),"progress");
         orderRecyclerView.setLayoutManager(linearLayoutManager);
         orderRecyclerView.setAdapter(orderAdapter);
         orderAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
     }
 
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e(TAG,".....onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchProgressOrders(view);
+        Log.e(TAG,".....onResume.........");
+    }
 }
