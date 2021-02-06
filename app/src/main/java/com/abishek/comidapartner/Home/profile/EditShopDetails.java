@@ -80,6 +80,8 @@ public class EditShopDetails extends AppCompatActivity implements View.OnClickLi
     private String userId;
     private File shopFile;
     private Button btnUpdate;
+    private HashMap<String,String> dataToUpload;
+    private HashMap<String,File> fileToUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,8 @@ public class EditShopDetails extends AppCompatActivity implements View.OnClickLi
         progressDialog = new ProgressDialog(EditShopDetails.this);
         progressDialog.setMessage("wait...");
         progressDialog.setCancelable(false);
+        dataToUpload = new HashMap<>();
+        fileToUpload = new HashMap<>();
     }
 
     public void inItUi() {
@@ -151,10 +155,12 @@ public class EditShopDetails extends AppCompatActivity implements View.OnClickLi
         if (type.equals("open")) {
             txtOpenTime.setText(time);
             openTime = completeTime;
+            dataToUpload.put("open_time",completeTime);
         }
         if (type.equals("close")) {
             txtCloseTime.setText(time);
             closeTime = completeTime;
+            dataToUpload.put("close_time",completeTime);
         }
         Log.e(TAG, completeTime);
     }
@@ -286,6 +292,8 @@ public class EditShopDetails extends AppCompatActivity implements View.OnClickLi
             Uri resultUri = result.getUri();
             shopImageView.setImageURI(resultUri);
             shopFile = new File(resultUri.getPath());
+            fileToUpload.put("shop_image",shopFile);
+
 
         }
 
@@ -313,12 +321,14 @@ public class EditShopDetails extends AppCompatActivity implements View.OnClickLi
     {
         String speciality = edtSpeciality.getText().toString();
 
+        dataToUpload.put("speciality",speciality);
+
         Log.e(TAG,"userid......"+userId);
-        sendDataToServer("",speciality,openTime,closeTime);
+        sendDataToServer();
 
     }
 
-    public void sendDataToServer(String shopName, String speciality, String openTime, String closeTime) {
+    public void sendDataToServer() {
 
 
         String url = BASE_PROFILE_EDIT;
@@ -326,11 +336,9 @@ public class EditShopDetails extends AppCompatActivity implements View.OnClickLi
 
         progressDialog.show();
         AndroidNetworking.upload(url)
-                .addMultipartFile("shop_image", shopFile)
                 .addMultipartParameter("id", userId)
-                .addMultipartParameter("speciality", speciality)
-                .addMultipartParameter("open_time", openTime)
-                .addMultipartParameter("close_time", closeTime)
+                .addMultipartParameter(dataToUpload)
+                .addMultipartFile(fileToUpload)
                 .addHeaders(getHeader())
                 .setPriority(Priority.HIGH)
                 .build()

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -107,5 +108,39 @@ public class CommonVariablesAndFunctions {
 
     }
 
+
+
+
+    public static String getDate(String str) {
+        Date date = null;
+        try {
+
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(str);
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        return new SimpleDateFormat("dd MMM").format(date);
+
+    }
+
+    public static String getTime(String str) {
+        String dateString3 = str;
+        String time = "";
+        //old format
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        try {
+            Date date3 = sdf.parse(dateString3);
+            //new format
+            SimpleDateFormat sdf2 = new SimpleDateFormat("hh:mm a");
+            //formatting the given time to new format with AM/PM
+
+            time = sdf2.format(date3);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return time;
+    }
 
 }

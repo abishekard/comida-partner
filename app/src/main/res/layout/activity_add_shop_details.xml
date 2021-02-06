@@ -282,12 +282,14 @@
                     android:id="@+id/aadhar_front"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/upload_back"/>
 
                 <ImageView
                     android:id="@+id/aadhar_back"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:scaleType="centerCrop"
                     android:layout_marginStart="20dp"
                     android:src="@mipmap/upload_front"/>
 

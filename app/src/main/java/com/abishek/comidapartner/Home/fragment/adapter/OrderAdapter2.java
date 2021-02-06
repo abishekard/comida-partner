@@ -40,6 +40,8 @@ import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_ORDER_QUEUE;
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.NO_OF_RETRY;
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.RETRY_SECONDS;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.getDate;
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.getTime;
 
 
 public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewHolder> {
@@ -78,9 +80,11 @@ public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewH
             holder.btnDispatch.setVisibility(View.GONE);
             from1="history";
         }
+        String dateTime[] = orderList.get(position).getCreateAt().split(" ");
+        String formattedDateTime = getDate(dateTime[0])+"  "+getTime(dateTime[1]);
 
         holder.orderIdView.setText("#"+orderList.get(position).getOrderId());
-        holder.dateView.setText(orderList.get(position).getCreateAt());
+        holder.dateView.setText(formattedDateTime);
         holder.priceView.setText(orderList.get(position).getTotalPrice());
         holder.addressView.setText(orderList.get(position).getDeliveredAddress());
         Picasso.get().load(BASE_IMAGE+orderList.get(position).getImage()).into(holder.foodImageView);
@@ -149,7 +153,7 @@ public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewH
                     if(status==200 )
                     {
 
-                        Toast.makeText(context,"order Queued",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"order Dispatched",Toast.LENGTH_SHORT).show();
                         orderList.get(position).setStatus("3");
                         notifyDataSetChanged();
                         progressDialog.dismiss();

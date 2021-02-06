@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -71,6 +73,8 @@ public class ProfilePage extends AppCompatActivity {
     private TextView editProfileImage;
     private SwitchCompat availableSwitch;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,18 +116,23 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
 
-        availableSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        availableSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    Log.e(TAG,"checked.....");
-                }
+            public void onClick(View v) {
+                if(availableSwitch.isChecked())
+                    changeAvailability("1");
+                if(!availableSwitch.isChecked())
+                    changeAvailability("0");
             }
         });
+
         getUserInfo();
 
         fetchProfile();
+
+        progressDialog = new ProgressDialog(ProfilePage.this);
+        progressDialog.setMessage("Wait....");
+        progressDialog.setCancelable(false);
     }
 
 
@@ -382,5 +391,84 @@ public class ProfilePage extends AppCompatActivity {
 
 
     }
+
+
+    public void changeAvailability(String available) {
+
+
+        String url = BASE_PROFILE_EDIT;
+        Log.e(TAG, "setDataToServer: called "+available);
+
+        progressDialog.show();
+        AndroidNetworking.upload(url)
+                .addMultipartParameter("id", userId)
+                .addMultipartParameter("available",available)
+                .addHeaders(getHeader())
+                .setPriority(Priority.HIGH)
+                .build()
+                .setUploadProgressListener(new UploadProgressListener() {
+                    @Override
+                    public void onProgress(long bytesUploaded, long totalBytes) {
+                        // do anything with progress
+                    }
+                })
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e(TAG, response.toString());
+
+
+                        try {
+
+
+                            int status = response.getInt("status");
+                            if (status == 200) {
+                                Toast.makeText(ProfilePage.this, "Updated", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+
+
+                            }
+                            if (status == 300) {
+                                Toast.makeText(ProfilePage.this, "Server error", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                            progressDialog.dismiss();
+                            Log.e(TAG, e.toString());
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        // handle error
+                        Log.e(TAG, error.getErrorBody());
+
+                        progressDialog.dismiss();
+                        if (error.getErrorCode() != 0) {
+                            // received error from server
+                            Log.d(TAG, "onError errorCode : " + error.getErrorCode());
+                            Log.d(TAG, "onError errorBody : " + error.getErrorBody());
+                            Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
+
+
+                        } else {
+                            // error.getErrorDetail() : connectionError, parseError, requestCancelledError
+                            Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
+                        }
+
+                    }
+
+                });
+    }
+
+
 
 }
