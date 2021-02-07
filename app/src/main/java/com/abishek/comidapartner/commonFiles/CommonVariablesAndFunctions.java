@@ -39,10 +39,7 @@ public class CommonVariablesAndFunctions {
     public static final String BASE_ORDER_QUEUE = BASE+"order/queue";
     public static final String BASE_ORDER_DISPATCH = BASE+"order/dispatch";
 
-   /* public static final String BASE_PLACE_ORDER = BASE+"placeOrder";
-    public static final String BASE_NEW_ORDER = BASE+"orders/new/";
-    public static final String BASE_COMPLETE_ORDER = BASE+"orders/completed/";
-    */
+
 
 
 

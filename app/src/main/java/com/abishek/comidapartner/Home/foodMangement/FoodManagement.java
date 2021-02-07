@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.abishek.comidapartner.Home.foodMangement.adapter.ProductParentAdapter;
@@ -42,6 +44,7 @@ public class FoodManagement extends AppCompatActivity {
     private ArrayList<CategoryModel> categoryList;
     private RecyclerView categoryRecycler;
     private String userId;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class FoodManagement extends AppCompatActivity {
         setContentView(R.layout.activity_food_mangement);
 
         categoryRecycler = findViewById(R.id.category_recycler_view);
+        progressBar = findViewById(R.id.progress_bar);
+
+
 
 
         userId = new LoginSessionManager(FoodManagement.this).getUserDetailsFromSP().get("user_id");
@@ -75,6 +81,7 @@ public class FoodManagement extends AppCompatActivity {
 
         final String URL = BASE_PRODUCT_CATEGORY;
 
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
@@ -131,6 +138,7 @@ public class FoodManagement extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.toString());
 
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(FoodManagement.this,"server problem",Toast.LENGTH_SHORT).show();
 
             }
@@ -178,6 +186,7 @@ public class FoodManagement extends AppCompatActivity {
         productParentAdapter.notifyDataSetChanged();
 
 
+        progressBar.setVisibility(View.GONE);
 
     }
 

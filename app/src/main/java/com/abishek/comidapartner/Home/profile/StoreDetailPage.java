@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class StoreDetailPage extends AppCompatActivity {
     private Button btnDone;
     private ProgressDialog progressDialog;
     private TextView btnEditProfile;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,8 @@ public class StoreDetailPage extends AppCompatActivity {
         openTimeView = findViewById(R.id.open_time);
         btnEditProfile = findViewById(R.id.edit_profile);
 
+        progressBar = findViewById(R.id.progress_bar);
+
         btnDone = findViewById(R.id.btn_done);
 
         btnDone.setOnClickListener(new View.OnClickListener() {
@@ -99,13 +103,14 @@ public class StoreDetailPage extends AppCompatActivity {
     }
 
 
-    public void fetchProductList() {
+    public void fetchShopDetail() {
 
 
         Log.e(TAG, "fetchAllProductList : called");
 
         final String URL = BASE_PROFILE_SHOW + userId;
 
+        progressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
@@ -157,6 +162,7 @@ public class StoreDetailPage extends AppCompatActivity {
                     Picasso.get().load(BASE_IMAGE + aadharFront).into(aadharFrontView);
                     Picasso.get().load(BASE_IMAGE + shopImage).into(shopImageView);
 
+                    progressBar.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -217,6 +223,6 @@ public class StoreDetailPage extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        fetchProductList();
+        fetchShopDetail();
     }
 }
