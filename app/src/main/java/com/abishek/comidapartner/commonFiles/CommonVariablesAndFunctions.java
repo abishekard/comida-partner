@@ -29,6 +29,8 @@ public class CommonVariablesAndFunctions {
     public static final String BASE_PRODUCT_CATEGORY = BASE+"product/show";
     public static final String BASE_PRODUCT_CREATE = BASE+"product/create";
     public static final String BASE_PRODUCT_DELETE = BASE+"product/delete/";
+    public static final String BASE_PRODUCT_DETAIL = BASE+"product/detail/show";
+    public static final String BASE_PRODUCT_EDIT = BASE+"product/edit";
     public static final String BASE_CHANGE_STOCK = BASE+"product/change/stock";
     public static final String BASE_ORDER_NEW = BASE+"order/new/";
     public static final String BASE_ORDER_PROGRESS = BASE+"order/progress/";

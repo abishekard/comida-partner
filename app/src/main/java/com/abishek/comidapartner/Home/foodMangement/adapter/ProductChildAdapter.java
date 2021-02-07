@@ -2,6 +2,7 @@ package com.abishek.comidapartner.Home.foodMangement.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.abishek.comidapartner.Home.foodMangement.CategoryModel;
+import com.abishek.comidapartner.Home.foodMangement.EditFood;
 import com.abishek.comidapartner.Home.foodMangement.FoodManagement;
 import com.abishek.comidapartner.Home.foodMangement.FoodModel;
 import com.abishek.comidapartner.R;
@@ -104,6 +106,8 @@ public class ProductChildAdapter extends RecyclerView.Adapter<ProductChildAdapte
             @Override
             public void onClick(View v) {
 
+                context.startActivity(new Intent(context, EditFood.class).
+                        putExtra("product_id",foodList.get(position).getProductId()));
             }
         });
 
