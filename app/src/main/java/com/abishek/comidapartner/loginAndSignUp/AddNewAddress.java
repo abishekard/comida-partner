@@ -2,6 +2,7 @@ package com.abishek.comidapartner.loginAndSignUp;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -117,6 +118,8 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
     private EditText edtCurrentAddress, edtState, edtCity;
     private String userId;
 
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +127,9 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
         // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_add_new_address);
 
+        progressDialog = new ProgressDialog(AddNewAddress.this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
 
         if (!isNetworkAvailable(AddNewAddress.this)) {
             Toast.makeText(AddNewAddress.this, "check your Internet connection", Toast.LENGTH_SHORT).show();
@@ -452,7 +458,7 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
 
 
         Log.e(TAG, "saveAddress : called");
-
+         progressDialog.show();
         btnSave.setEnabled(false);
         final String URL = BASE_GET_ADDRESS;
 
@@ -471,12 +477,14 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
                     if(status != 200)
                     {
                         Toast.makeText(AddNewAddress.this,"Something went wrong (server)",Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                         return;
                     }
 
                     Toast.makeText(AddNewAddress.this,"Address Added",Toast.LENGTH_SHORT).show();
                     new LoginSessionManager(AddNewAddress.this).addShopAddress(currentAddress);
                     startActivity(new Intent(AddNewAddress.this,HomePage.class));
+                    progressDialog.dismiss();
                     finish();
 
                 } catch (JSONException e) {
@@ -491,6 +499,7 @@ public class AddNewAddress extends AppCompatActivity implements OnMapReadyCallba
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.toString());
 
+                progressDialog.dismiss();
                 Toast.makeText(AddNewAddress.this,"server problem",Toast.LENGTH_SHORT).show();
 
             }

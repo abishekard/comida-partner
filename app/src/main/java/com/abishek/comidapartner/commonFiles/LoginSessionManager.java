@@ -1,14 +1,20 @@
 package com.abishek.comidapartner.commonFiles;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.abishek.comidapartner.loginAndSignUp.AddShopDetails;
 import com.abishek.comidapartner.loginAndSignUp.Login;
+import com.abishek.comidapartner.notification.ComidaDatabase;
+import com.abishek.comidapartner.notification.NotificationDao;
+import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -59,7 +65,7 @@ public class LoginSessionManager {
 
 
     public void createLoginSession(String token_type, String accessToken, String userId, String name, String mobile,
-                                   String email,String profileImage,String shopName,String shopImage,String address,String pinCode) {
+                                   String email, String profileImage, String shopName, String shopImage, String address, String pinCode) {
 
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(TOKEN_TYPE, token_type);
@@ -83,11 +89,12 @@ public class LoginSessionManager {
     }
 
     public void addShopDetail(String shopName) {
-        editor.putString(SHOP_NAME,shopName);
+        editor.putString(SHOP_NAME, shopName);
         editor.commit();
     }
+
     public void addShopAddress(String address) {
-        editor.putString(ADDRESS,address);
+        editor.putString(ADDRESS, address);
         editor.commit();
     }
 
@@ -109,8 +116,9 @@ public class LoginSessionManager {
     public boolean onBoardingShown() {
         return pref.getBoolean(ON_BOARDING_SHOWN, false);
     }
+
     public void setOnBoardingShown() {
-        editor.putBoolean(ON_BOARDING_SHOWN,true);
+        editor.putBoolean(ON_BOARDING_SHOWN, true);
         editor.apply();
     }
 
@@ -131,21 +139,19 @@ public class LoginSessionManager {
         user.put(PIN_CODE, pref.getString(PIN_CODE, "null"));
 
 
-
-
         return user;
     }
 
     public void logoutUser() {
 
-       /* - new Thread(() -> {
+        new Thread(() -> {
             try {
                 FirebaseInstanceId.getInstance().deleteToken(getFcmToken(), "");
                 FirebaseInstanceId.getInstance().deleteInstanceId();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }).start();*/
+        }).start();
         //-  context.stopService(new Intent(context, PhoneService.class));
         editor.clear();
         editor.commit();
@@ -153,17 +159,15 @@ public class LoginSessionManager {
 
         Intent i = new Intent(context, Login.class);
 
-        // Closing all the Activities
+
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        // Add new Flag to start new Activity
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        new ClearRoom(ComidaDatabase.getDatabase(context)).execute();
 
-        //-   new ClearRoom(MekVahanDatabase.getInstance(context)).execute();
 
-        // Staring Login Activity
         Toast.makeText(context, "Logged Out", Toast.LENGTH_SHORT).show();
         context.startActivity(i);
-
+        ((Activity) context).finish();
     }
 
     public boolean isLoggedIn() {
@@ -207,5 +211,20 @@ public class LoginSessionManager {
         editor.commit();
     }
 
+    class ClearRoom extends AsyncTask<Void, Void, Void> {
+
+        private final NotificationDao notificationDao;
+
+        public ClearRoom(ComidaDatabase instance) {
+            notificationDao = instance.getMyNotificationDao();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            notificationDao.deleteAllNotifications();
+            return null;
+        }
+
+    }
 
 }

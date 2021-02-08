@@ -1,5 +1,6 @@
 package com.abishek.comidapartner.loginAndSignUp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private TextView btnRegister;
     private Button btnLogin;
     private EditText edtEmail;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         edtEmail = findViewById(R.id.edt_email);
         btnRegister.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
+
+        progressDialog = new ProgressDialog(Login.this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
     }
 
     @Override
@@ -88,6 +94,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         btnLogin.setEnabled(false);
         Log.e(TAG, "getOtpForLogin : called");
 
+        progressDialog.show();
         final String URL = BASE_LOGIN_OTP;
 
 
@@ -105,12 +112,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     {
                         startActivity(new Intent(Login.this,OtpVerification.class).putExtra("email",email));
                         Toast.makeText(Login.this,"Otp sent to your email",Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                         finish();
                         return;
                     }
                     if(status ==202)
                     {
                         startActivity(new Intent(Login.this,SignUp.class));
+                        progressDialog.dismiss();
+                        btnLogin.setEnabled(true);
                         Toast.makeText(Login.this,"email does not exist.\nPlease create a new Account.",Toast.LENGTH_SHORT).show();
                         finish();
                         return;
@@ -131,6 +141,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.toString());
+                progressDialog.dismiss();
+                btnLogin.setEnabled(true);
                 Toast.makeText(Login.this,"server problem",Toast.LENGTH_SHORT).show();
 
             }

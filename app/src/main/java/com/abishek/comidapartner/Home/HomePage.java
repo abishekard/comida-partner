@@ -1,11 +1,13 @@
 package com.abishek.comidapartner.Home;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -227,7 +229,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
         navLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+               openLogOutConfirmationDialog();
             }
         });
         String profileImage = new LoginSessionManager(HomePage.this).getUserDetailsFromSP().get("profile_image");
@@ -284,5 +286,32 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
 
      //  setTabLayout();
         Log.e(TAG,".........onResume");
+    }
+
+    void openLogOutConfirmationDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomePage.this);
+        builder.setMessage("Do you want to logout ?");
+        builder.setTitle("Confirm");
+
+        builder.setPositiveButton("Yes", new DialogInterface
+                .OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new LoginSessionManager(HomePage.this).logoutUser();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
