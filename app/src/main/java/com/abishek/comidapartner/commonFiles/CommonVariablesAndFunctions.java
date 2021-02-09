@@ -38,6 +38,7 @@ public class CommonVariablesAndFunctions {
     public static final String BASE_ORDER_DETAIL = BASE+"order/detail/";
     public static final String BASE_ORDER_QUEUE = BASE+"order/queue";
     public static final String BASE_ORDER_DISPATCH = BASE+"order/dispatch";
+    public static final String BASE_SALES_DATA = BASE+"sales/current";
 
 
 

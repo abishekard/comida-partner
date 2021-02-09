@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
     private FloatingActionButton fabHome;
     private DrawerLayout drawerLayout;
     private TextView navProfile, navFoodManagement, navSales, navNotifications, navFaq, navAboutUs, navLogout;
+    private ImageView support;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -97,12 +99,14 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
         botNavMenu = findViewById(R.id.bot_nav_menu);
         fabHome = findViewById(R.id.home);
         drawerLayout = findViewById(R.id.drawer_layout);
+        support = findViewById(R.id.support);
 
 
         botNavProfile.setOnClickListener(this);
         botNavFoodManagement.setOnClickListener(this);
         botNavSale.setOnClickListener(this);
         botNavMenu.setOnClickListener(this);
+        support.setOnClickListener(this);
         setTabLayout();
     }
 
@@ -168,6 +172,12 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
                         setBottomIcon();
                     }
                 }, 200);
+                break;
+            case R.id.support:
+
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:7781952143"));
+                startActivity(intent);
                 break;
         }
     }
