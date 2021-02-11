@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Home.foodMangement.EditFood"></activity>
+        <activity android:name=".Home.deliveryPartner.DeliveryPartner"></activity>
+        <activity android:name=".Home.foodMangement.EditFood" />
         <activity
             android:name=".Home.profile.EditShopDetails"
             android:screenOrientation="portrait" />

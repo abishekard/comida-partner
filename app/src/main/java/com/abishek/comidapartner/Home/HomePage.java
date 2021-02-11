@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abishek.comidapartner.Home.adapter.TabAdapter;
+import com.abishek.comidapartner.Home.deliveryPartner.DeliveryPartner;
 import com.abishek.comidapartner.Home.foodMangement.FoodManagement;
 import com.abishek.comidapartner.Home.profile.ProfilePage;
 import com.abishek.comidapartner.Home.sales.Sales;
@@ -44,7 +45,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
     private ImageView botNavProfile, botNavFoodManagement, botNavSale, botNavMenu,navProfileImage;
     private FloatingActionButton fabHome;
     private DrawerLayout drawerLayout;
-    private TextView navProfile, navFoodManagement, navSales, navNotifications, navFaq, navAboutUs, navLogout;
+    private TextView navProfile, navFoodManagement, navSales, navNotifications, navFaq, navAboutUs, navLogout,navDeliveryPartner;
     private ImageView support;
 
     private TabLayout tabLayout;
@@ -192,6 +193,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
         navAboutUs = findViewById(R.id.about_us);
         navLogout = findViewById(R.id.logout);
         navProfileImage = findViewById(R.id.nav_profile_image);
+        navDeliveryPartner = findViewById(R.id.delivery_partner);
 
         navProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,6 +235,14 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomePage.this, AboutUs.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+
+        navDeliveryPartner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomePage.this, DeliveryPartner.class));
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });

@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.abishek.comidapartner.Home.profile.ProfilePage;
 import com.abishek.comidapartner.R;
@@ -40,6 +43,7 @@ public class Sales extends AppCompatActivity {
     private TextView weekCodCountView,weekOnlineCountView,weekCodTotalView,weekOnlineTotalView;
     private TextView monthCodCountView,monthOnlineCountView,monthCodTotalView,monthOnlineTotalView;
     private String userId;
+    private LinearLayout loadingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,8 @@ public class Sales extends AppCompatActivity {
         monthCodTotalView = findViewById(R.id.month_cod_total);
         monthOnlineTotalView = findViewById(R.id.month_online_total);
 
+        loadingLayout = findViewById(R.id.loading);
+
         userId = new LoginSessionManager(Sales.this).getUserDetailsFromSP().get("user_id");
 
         fetchSalesData();
@@ -74,6 +80,7 @@ public class Sales extends AppCompatActivity {
 
        String URL = BASE_SALES_DATA;
 
+       loadingLayout.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -111,6 +118,7 @@ public class Sales extends AppCompatActivity {
                     monthCodTotalView.setText(monthCodTotal);
                     monthOnlineTotalView.setText(monthOnlineTotal);
 
+                    loadingLayout.setVisibility(View.GONE);
 
 
                 } catch (JSONException e) {
@@ -125,7 +133,7 @@ public class Sales extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.toString());
 
-
+                Toast.makeText(Sales.this,"server problem",Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
