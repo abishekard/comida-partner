@@ -107,6 +107,10 @@ public class DeliveryPartner extends AppCompatActivity {
                 String mobile = edtMobile.getText().toString();
                 Log.e(TAG,mobile);
 
+                if(mobile.equals("")||edtMobile.length()<10) {
+                    Toast.makeText(DeliveryPartner.this, "invalid mobile number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 addDeliveryPartner(mobile);
                 alertDialog.dismiss();
 

@@ -1,4 +1,4 @@
-package com.abishek.comidapartner.Home.deliveryPartner;
+package com.abishek.comidapartner.Home.fragment.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.abishek.comidapartner.Home.deliveryPartner.DeliveryPartnerModel;
 import com.abishek.comidapartner.R;
 import com.squareup.picasso.Picasso;
 
@@ -17,20 +19,23 @@ import java.util.List;
 
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_IMAGE;
 
-public class DeliveryPartnerAdapter extends RecyclerView.Adapter<DeliveryPartnerAdapter.DeliveryPartnerHolder> {
+public class DeliveryPartnerAdapter1 extends RecyclerView.Adapter<DeliveryPartnerAdapter1.DeliveryPartnerHolder> {
 
     private List<DeliveryPartnerModel> partnerList;
     private Context context;
+    private OrderAdapter2.PartnerSelectionListener partnerSelectionListener;
 
-    public DeliveryPartnerAdapter(List<DeliveryPartnerModel> partnerList, Context context) {
+    public DeliveryPartnerAdapter1(List<DeliveryPartnerModel> partnerList, Context context,
+                                   OrderAdapter2.PartnerSelectionListener partnerSelectionListener) {
         this.partnerList = partnerList;
         this.context = context;
+        this.partnerSelectionListener=partnerSelectionListener;
     }
 
     @NonNull
     @Override
     public DeliveryPartnerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.delivery_partner_recycler_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.delivery_partner_recycler_item1, parent, false);
         return new DeliveryPartnerHolder(view);
     }
 
@@ -41,10 +46,11 @@ public class DeliveryPartnerAdapter extends RecyclerView.Adapter<DeliveryPartner
         holder.mobileView.setText(partnerList.get(position).getMobile());
         if(!partnerList.get(position).getProfileImage().equals("null"))
             Picasso.get().load(BASE_IMAGE+partnerList.get(position).getProfileImage()).into(holder.profileImageView);
-        holder.btnRemove.setOnClickListener(new View.OnClickListener() {
+
+        holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+               partnerSelectionListener.selectedPosition(position,partnerList.get(position).getId());
             }
         });
     }
@@ -58,7 +64,7 @@ public class DeliveryPartnerAdapter extends RecyclerView.Adapter<DeliveryPartner
 
         private TextView nameView;
         private TextView mobileView;
-        private TextView btnRemove;
+        private CardView card;
         private ImageView profileImageView;
 
         public DeliveryPartnerHolder(@NonNull View v) {
@@ -66,7 +72,7 @@ public class DeliveryPartnerAdapter extends RecyclerView.Adapter<DeliveryPartner
 
             nameView = v.findViewById(R.id.name);
             mobileView = v.findViewById(R.id.mobile);
-            btnRemove = v.findViewById(R.id.btn_remove);
+            card = v.findViewById(R.id.card);
             profileImageView = v.findViewById(R.id.profile_image);
         }
     }

@@ -4,21 +4,30 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.abishek.comidapartner.Home.deliveryPartner.DeliveryPartner;
+import com.abishek.comidapartner.Home.deliveryPartner.DeliveryPartnerAdapter;
+import com.abishek.comidapartner.Home.deliveryPartner.DeliveryPartnerModel;
 import com.abishek.comidapartner.Home.fragment.model.MyOrderModel;
 import com.abishek.comidapartner.Home.fragment.OrderDetail;
 import com.abishek.comidapartner.R;
+import com.abishek.comidapartner.commonFiles.LoginSessionManager;
 import com.abishek.comidapartner.commonFiles.MySingleton;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -28,13 +37,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_GET_DELIVERY_PARTNER;
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_IMAGE;
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_ORDER_DISPATCH;
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.BASE_ORDER_QUEUE;
@@ -42,6 +54,8 @@ import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.RETRY_SECONDS;
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.getDate;
 import static com.abishek.comidapartner.commonFiles.CommonVariablesAndFunctions.getTime;
+import static com.abishek.comidapartner.commonFiles.LoginSessionManager.ACCESS_TOKEN;
+import static com.abishek.comidapartner.commonFiles.LoginSessionManager.TOKEN_TYPE;
 
 
 public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewHolder> {
@@ -51,6 +65,7 @@ public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewH
     private String from;
     private final String TAG="OrderAdapter2";
     private ProgressDialog progressDialog;
+    private AlertDialog alertDialog;
 
     public OrderAdapter2(List<MyOrderModel> orderList, Context context, String from) {
         this.orderList = orderList;
@@ -101,7 +116,8 @@ public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewH
         holder.btnDispatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeOrderStatus(position,orderList.get(position).getOrderId());
+               // changeOrderStatus(position,orderList.get(position).getOrderId());
+                openDeliveryPartnerDialog(position);
             }
         });
 
@@ -133,7 +149,7 @@ public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewH
 
 
 
-    public void changeOrderStatus(int position,String orderId) {
+    public void changeOrderStatus(int position,String orderId,String dpId) {
         String URL = BASE_ORDER_DISPATCH;
         progressDialog.show();
 
@@ -182,15 +198,13 @@ public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewH
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                /*Map<String, String> header = new HashMap<>();
+                Map<String, String> header = new HashMap<>();
 
-                String tokenType = new LoginSessionManager(getContext()).getUserDetailsFromSP().get(TOKEN_TYPE);
-                String accessToken = new LoginSessionManager(getContext()).getUserDetailsFromSP().get(ACCESS_TOKEN);
-
-                //String fullKey = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjcxNDdmNGFjNWFlN2IzZDM4MmYyNTAwNWVhNTIwOGUyNDAzNjYwNzMyOWMyYjZiYWQ1YTlhMmNlZTEzZDI3ZTgzN2RkOTY5NzcxNWNhMzUxIn0.eyJhdWQiOiIxIiwianRpIjoiNzE0N2Y0YWM1YWU3YjNkMzgyZjI1MDA1ZWE1MjA4ZTI0MDM2NjA3MzI5YzJiNmJhZDVhOWEyY2VlMTNkMjdlODM3ZGQ5Njk3NzE1Y2EzNTEiLCJpYXQiOjE1NTExOTc0MjcsIm5iZiI6MTU1MTE5NzQyNywiZXhwIjoxNTgyNzMzNDI3LCJzdWIiOiI4NSIsInNjb3BlcyI6W119.kLmk7mEukKdoS9e_v31VQX29ypn7hJb7qAJvKA_GqeiYEYe2EQ9zLTd1IwO-S31CofoypnJ-LvAT7D4I0EZ9iYM1AS5A6-7bWH3-h01-glLQubbfedhvlg0xfT60s2r1onxlEMUnt-0kB2tbYgX_df4zJPExUhHRpzlnLNChzC3r1QD1dzgn-814GjxlQkwfgv_5dsKzyMlvVCHiTDg2z35h2uiWeRuVhmznbUGaGCWcxPwHpNV4k9pHOH9yrCwkjJuHlcSIiXD7W_QsRnzEa_dY6wASdymtGqHb99c3kfWmiKKwngAC9GY56OeMP0vLnYpXOAspu5rDlQkLCzCeh58KnqbqMUrQ0bZ3ChTaeATXM_fncQiByfMgAAfiVfu8GpKsnQKSYobzcqrqjmAgPTNEcq5ba4BCUuw1ysv0LodTqHGUHsSNsiZfx3GyqLoyOCMWY5oWO4M4saOTo3pUSGPSq15BsqRQXqbvzshxk9ysaAU1K9dZj-AZpy4mUxf3y4UX8-EADqJmYV7ywEph_FveDbdWNNUF72bqbTg8DTxwJ6V53cEOsxbmNb82jFJnz1vSxLFDDXv9Vvf23W5hm4Io2Ogxv8wyE5vNUgL2XepFrGwWWANEsp4fLebzfgFD3045vkrcfRPc164LVKHdLyaHhxB8TrYeK9TOqeEfk7M";
+                String tokenType = new LoginSessionManager(context).getUserDetailsFromSP().get(TOKEN_TYPE);
+                String accessToken = new LoginSessionManager(context).getUserDetailsFromSP().get(ACCESS_TOKEN);
 
                 header.put("Accept", "application/json");
-                header.put("Authorization", tokenType + " " + accessToken);*/
+                header.put("Authorization", tokenType + " " + accessToken);
 
                 return super.getHeaders();
             }
@@ -199,6 +213,7 @@ public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewH
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("order_id",orderId);
+                params.put("delivery_partner_id",dpId);
                 return params;
             }
 
@@ -210,4 +225,144 @@ public class OrderAdapter2 extends RecyclerView.Adapter<OrderAdapter2.OrderViewH
 
 
     }
+
+    private void openDeliveryPartnerDialog(int position) {
+
+
+
+        alertDialog = new AlertDialog.Builder(context,
+                R.style.setting_dialog).create();
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        final View view = inflater.inflate(R.layout.delivery_partner_selecttion_dialog, null);
+
+        alertDialog.setView(view);
+
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        fetchDeliveryPartner(view,position);
+
+        alertDialog.show();
+    }
+
+    public void fetchDeliveryPartner(View view,int position) {
+
+
+        Log.e(TAG, "fetchAllProductList : called");
+        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
+        String userId = new LoginSessionManager(context).getUserDetailsFromSP().get("user_id");
+        final String URL = BASE_GET_DELIVERY_PARTNER;
+        List<DeliveryPartnerModel> deliveryPartnerList = new ArrayList<>();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e(TAG, response);
+
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    int status = jsonObject.getInt("status");
+
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    if(data.length()==0)
+                    {
+                        Toast.makeText(context,"no delivery partner registered",Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        alertDialog.dismiss();
+                        return;
+                    }
+                    for(int i=0;i<data.length();i++)
+                    {
+                        JSONObject childJson = data.getJSONObject(i);
+                        String name=childJson.getString("name");
+                        String mobile=childJson.getString("mobile");
+                        String aadharNumber=childJson.getString("aadhar_number");
+                        String profileImage=childJson.getString("profile_image");
+                        String id = childJson.getString("id");
+
+                        deliveryPartnerList.add(new DeliveryPartnerModel(name,id,mobile,aadharNumber,profileImage));
+
+                    }
+
+                    setDataToView(deliveryPartnerList,view,progressBar,position);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(context,"server problem",Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+                    Log.e(TAG, e.toString());
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressBar.setVisibility(View.GONE);
+                Log.e(TAG, error.toString());
+
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap<>();
+
+                String tokenType = new LoginSessionManager(context).getUserDetailsFromSP().get(TOKEN_TYPE);
+                String accessToken = new LoginSessionManager(context).getUserDetailsFromSP().get(ACCESS_TOKEN);
+
+                header.put("Accept", "application/json");
+                header.put("Authorization", tokenType + " " + accessToken);
+                Log.e(TAG,"Authorization  "+tokenType + " " + accessToken);
+
+
+                return header;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                HashMap<String,String> params=new HashMap<>();
+                params.put("id",userId);
+
+                return params;
+            }
+
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy((RETRY_SECONDS),
+                NO_OF_RETRY, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MySingleton.getInstance(context).addToRequestQueue(stringRequest);
+
+
+    }
+
+    private void setDataToView(List<DeliveryPartnerModel> deliveryPartnerList,View view,ProgressBar progressBar,int position) {
+
+        RecyclerView deliveryPartnerRecycler = view.findViewById(R.id.delivery_partner_recycler);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        DeliveryPartnerAdapter1 adapter = new DeliveryPartnerAdapter1(deliveryPartnerList,context, new PartnerSelectionListener() {
+            @Override
+            public void selectedPosition(int index,String deliveryPartnerId) {
+                Log.e(TAG,"........"+deliveryPartnerId);
+                alertDialog.dismiss();
+                changeOrderStatus(position,orderList.get(position).getOrderId(),deliveryPartnerId);
+            }
+        });
+        deliveryPartnerRecycler.setLayoutManager(linearLayoutManager);
+        deliveryPartnerRecycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
+
+    }
+
+    public interface PartnerSelectionListener{
+        void selectedPosition(int position,String deliveryPartnerId);
+    }
+
 }
