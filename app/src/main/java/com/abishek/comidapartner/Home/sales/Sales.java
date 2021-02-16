@@ -90,7 +90,7 @@ public class Sales extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                    String todayCodCount=jsonObject.getString("today_cod_total");
+                    String todayCodCount=jsonObject.getString("today_cod_count");
                     String todayOnlineCount=jsonObject.getString("today_online_count");
                     String todayCodTotal=jsonObject.getString("today_cod_total");
                     String todayOnlineTotal=jsonObject.getString("today_online_total");

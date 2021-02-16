@@ -97,6 +97,13 @@ public class TimeChooser extends BottomSheetDialogFragment {
                 hour = timePicker.getHour();
                 min = timePicker.getMinute();
 
+                mStr = min+"";
+                hStr = hour+"";
+                if(min<10)
+                    mStr="0"+mStr;
+                if(hour<10)
+                    hStr="0"+hStr;
+                completeTime=hStr+":"+mStr+":"+"00";
 
                 if(hour >12)
                 {
@@ -113,7 +120,7 @@ public class TimeChooser extends BottomSheetDialogFragment {
                     mStr="0"+mStr;
                 if(hour<10)
                     hStr="0"+hStr;
-                completeTime=hStr+":"+mStr+":"+"00";
+
                 timePickerListener.getTime(hStr+":"+mStr+" "+amPm,completeTime,type);
                 dismiss();
 

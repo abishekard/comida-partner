@@ -122,7 +122,7 @@ public class ProfilePage extends AppCompatActivity {
                 if(availableSwitch.isChecked())
                     changeAvailability("1");
                 if(!availableSwitch.isChecked())
-                    changeAvailability("0");
+                    changeAvailability("2");
             }
         });
 
